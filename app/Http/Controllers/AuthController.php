@@ -44,7 +44,7 @@ class AuthController extends Controller
             ],401);
         }
 
-        $user = User::where('email', $request['email'])->firsOrFail();
+        $user = User::where('email', $request['email'])->firstOrFail();
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -54,6 +54,13 @@ class AuthController extends Controller
             'token_type' => 'Bearer',
             'user' => $user,
         ]);
+    }
+
+    public function logout()
+    {
+        Auth::guard('api')->logout();
+
+        return response()->json(['message' => 'Successfully logged out']);
 
     }
 
